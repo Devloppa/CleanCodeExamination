@@ -1,5 +1,6 @@
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.swing.JOptionPane;
 
@@ -7,15 +8,15 @@ public class Controller {
 
 	DAO dao;
 	GUI gui;
-	GameLogicDAO game;
+	GameLogic game;
 
-	public Controller(DAO dao, GUI gui, GameLogicDAO game) {
+	public Controller(DAO dao, GUI gui, GameLogic game) {
 		this.dao = dao;
 		this.gui = gui;
 		this.game = game;
 	}
 
-	public void run() throws SQLException {
+	public void run() {
 
 		int optionsPaneState = JOptionPane.YES_OPTION;
 
@@ -54,22 +55,20 @@ public class Controller {
 
 	int getPlayerIDFromDB() {
 
-		int playerID = 0;
+		Optional<Integer> playerID = Optional.empty();
 
-		while (playerID == 0) {
+		while (playerID.isEmpty()) {
 
 			gui.addString("Enter your user name:\n");
 			String name = gui.getString();
 
-			int returnedPlayerID = dao.loginOfPlayer(name);
+			playerID = dao.loginOfPlayer(name);
 
-			if (returnedPlayerID != 0) {
-				playerID = returnedPlayerID;
-			} else if (playerID == 0) {
+			if (playerID.isEmpty()) {
 				gui.addString("Wrong username. Try again \n");
 			}
 		}
-		return playerID;
+		return playerID.get();
 
 	}
 

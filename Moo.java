@@ -13,12 +13,12 @@ public class Moo {
 	static ResultSet rs;
 	static GUI gui;
 	static DAO dao;
-	static GameLogicDAO game;
+	static GameLogic game;
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException, InterruptedException {
+	public static void main(String[] args)  {
 		gui = new GUI("Moo");
 		dao = new DAOImpl();
-		game = new GameLogic();
+		game = new GameLogicMoo();
 
 		Controller controller = new Controller(dao, gui, game);
 
